@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA - Asistente de Huracanes</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    
+    <style>
+        /* Estilos base para que ocupe todo el espacio del Embed en ArcGIS */
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: transparent; /* Fondo transparente para integrarse al mapa */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* 1. DISEÑO DEL CONTENEDOR PRINCIPAL */
+        #n8n-chat {
+            width: 90%;          /* Margen lateral para el StoryMap */
+            height: 90%;         /* Margen superior/inferior */
+            background-color: #FFFFFF; /* Fondo blanco para el chat en sí */
+            
+            /* Bordes Redondeados y Estilo */
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(8, 37, 61, 0.2); /* Sombra suave con tu color azul */
+            overflow: hidden;    /* Para que el header y footer respeten los bordes redondeados */
+            position: relative;
+        }
+
+        /* 2. PERSONALIZACIÓN DEL LOGO DE LA APLICACIÓN */
+        /* Primero creamos el contenedor del logo en HTML (ver body) */
+        .aura-logo {
+            width: 40px;
+            height: 40px;
+            
+            /* --- PON AQUÍ LA URL DE TU LOGO --- */
+            background-image: url('https://photos.fife.usercontent.google.com/pw/AP1GczOSfLZI78RoTLtVzArHXfKtrPy_BMMtPl0gtlk1j6g0L9bNJM7cRLYK=w1180-h518-s-no-gm?authuser=2'); 
+            
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 50%; /* Hace el logo circular si no lo es */
+            margin-right: 12px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* 3. VARIABLES DE COLOR DE N8N (CSS THEME CUSTOMIZATION) */
+        #n8n-chat {
+            /* Colores Principales con tu código #08253D */
+            --n8n-chat-primary-color: #08253D;        /* Color del Header, Footer y botones */
+            
+            /* Burbujas de Chat */
+            --n8n-chat-bot-bubble-background-color: #F0F2F5; /* Burbuja de AURA (gris claro) */
+            --n8n-chat-user-bubble-background-color: #08253D; /* Burbuja del Usuario (tu azul) */
+            --n8n-chat-user-bubble-text-color: #FFFFFF;       /* Texto de usuario en blanco */
+            
+            /* Ajustes finos */
+            --n8n-chat-placeholder-color: rgba(8, 37, 61, 0.5); /* Color del placeholder en el input */
+        }
+
+        /* 4. MODIFICACIONES CSS PARA LOGRAR EL ESTILO PEDIDO */
+        
+        /* Modificar el Header (Rectángulo Azul) */
+        .n8n-chat-header {
+            background-color: #08253D !important;
+            padding: 15px 20px !important;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Asegurar que el título esté alineado con el logo */
+        .n8n-chat-header-title {
+            color: #FFFFFF !important;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Modificar las burbujas para que sean más redondeadas */
+        .n8n-chat-bubble {
+            border-radius: 12px !important;
+            line-height: 1.5;
+        }
+
+        /* Modificar el Footer/Input Area */
+        .n8n-chat-input {
+            border-top: 1px solid #E0E4E8;
+            padding: 10px 15px;
+        }
+        
+        .n8n-chat-input-textarea {
+            border: 1px solid #E0E4E8;
+            border-radius: 10px; /* Borde redondeado en el input */
+            padding: 8px 12px;
+        }
+        
+        .n8n-chat-input-send-button {
+            color: #08253D !important; /* Botón de enviar con tu color */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="n8n-chat"></div>
+
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'https://n8n-service-saz9.onrender.com/webhook/dc2afaa5-aef8-4988-b4c5-11a22ed3468f/chat',
+            target: '#n8n-chat',
+            mode: 'fullscreen',
+            
+            initialMessages: [
+                '¡Hola! Mi nombre es AURA y soy una amiga asistente en temporada de huracanes. ¿En qué te ayudo hoy?'
+            ],
+            
+            i18n: {
+                en: {
+                    chatInputPlaceholder: 'Escribe tu consulta aquí...',
+                    // Insertamos el logo HTML dentro del título
+                    chatHeaderTitle: '<div class="aura-logo"></div> AURA',
+                }
+            }
+        });
+    </script>
+</body>
+</html>
